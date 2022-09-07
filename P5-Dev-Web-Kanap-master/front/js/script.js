@@ -22,12 +22,27 @@ for ( NumProduit = 0; NumProduit < value.length ;NumProduit ++ )  {
     
    
   }
-  
+  /*/// affichage quantité produit à côté panier
+ 
+     let totalQuantité = 0;
+     let sauvegardePanier = JSON.parse(localStorage.getItem("produit"));
+       
+     for (let produit of sauvegardePanier){
+      totalQuantité += Number(produit.quantité);
+     }
+    
+     const affichageQuantitéPanier = document.querySelector("#Panier");
+     affichageQuantitéPanier.textContent = `Panier (${totalQuantité})`;*/
+    
+   
+    
+    
 
   
  } )
   .catch(function(err) {
-   // Une erreur est survenue
+    console.log(err);
+    alert(err);
   });
 
 

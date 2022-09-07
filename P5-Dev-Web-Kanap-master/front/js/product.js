@@ -51,23 +51,29 @@ for (NbreCouleur = 0; NbreCouleur < value.colors.length ;NbreCouleur ++ )  {
 }
 
 
+
+
+
 //-------------ajout articles au localstorage-----------------------------------------------------------
 
 const boutonAjouter = document.querySelector('button');
 const quantité =document.querySelector('#quantity');
 const couleurProduit = document.querySelector('#colors');
+
 boutonAjouter.addEventListener('click' , ajoutProduit => {
  
 let detailProduit = {
 id :`${id}`,
 couleur :`${couleurProduit.value}`,
-quantité :`${quantité.value}`
+quantité :`${quantité.value}`,
+prix : `${montant} `
 };
-
+ 
 //condition selection couleur et quantité
  if ((quantité.value > 0 )&&(couleurProduit.value != "")){
     let sauvegardePanier = JSON.parse(localStorage.getItem("produit"));
     console.log(sauvegardePanier);
+    
 
 //condition sauvegarde nouveau produit sans écrasement du précedent
     if(sauvegardePanier){
@@ -84,7 +90,7 @@ quantité :`${quantité.value}`
         if(NouvelleQtitéProduit < 100){
           sauvegardePanier[i].quantité = Number(detailProduit.quantité) + Number(lecturePanier.quantité);
         }else{
-          alert ("!!!Quantité maximum par article atteinte!!!  ");
+          alert ("!!! Quantité maximum par article atteinte !!!");
         }
         trouveProduit = 1;
       }
@@ -99,10 +105,25 @@ quantité :`${quantité.value}`
       sauvegardePanier.push(detailProduit);
       localStorage.setItem("produit",JSON.stringify(sauvegardePanier));
       console.log(sauvegardePanier);
+
+   
     }  
+  
+    alert (`L'article ${nom} a été ajouté au panier.`);
+
+    /*/// mise à jour affichage quantité dans panier
+    
+      let totalQuantité = 0;
+      //let sauvegardePanier = JSON.parse(localStorage.getItem("produit"));
+      for (let produit of sauvegardePanier){
+      totalQuantité += Number(produit.quantité);
+      }
+      const affichageQuantitéPanier = document.querySelector("#Panier");
+      affichageQuantitéPanier.textContent = `Panier (${totalQuantité})`;*/
+
     
   } else {
- alert ("Veuillez saisir une couleur valide et une quantité de 1 à 100.");
+    alert ("Merci de saisir une couleur valide et une quantité de 1 à 100.");
   }
 
   })
