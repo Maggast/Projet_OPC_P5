@@ -49,11 +49,6 @@ for (NbreCouleur = 0; NbreCouleur < value.colors.length ;NbreCouleur ++ )  {
   affichageCouleur.textContent = `${couleur}`;
 
 }
-
-
-
-
-
 //-------------ajout articles au localstorage-----------------------------------------------------------
 
 const boutonAjouter = document.querySelector('button');
@@ -66,7 +61,6 @@ let detailProduit = {
 id :`${id}`,
 couleur :`${couleurProduit.value}`,
 quantité :`${quantité.value}`,
-prix : `${montant} `
 };
  
 //condition selection couleur et quantité
@@ -89,6 +83,7 @@ prix : `${montant} `
         let NouvelleQtitéProduit = Number(detailProduit.quantité) + Number(lecturePanier.quantité);
         if(NouvelleQtitéProduit < 100){
           sauvegardePanier[i].quantité = Number(detailProduit.quantité) + Number(lecturePanier.quantité);
+          alert (`L'article ${nom} a été ajouté au panier.`);
         }else{
           alert ("!!! Quantité maximum par article atteinte !!!");
         }
@@ -105,22 +100,11 @@ prix : `${montant} `
       sauvegardePanier.push(detailProduit);
       localStorage.setItem("produit",JSON.stringify(sauvegardePanier));
       console.log(sauvegardePanier);
-
+      
    
     }  
   
-    alert (`L'article ${nom} a été ajouté au panier.`);
-
-    /*/// mise à jour affichage quantité dans panier
     
-      let totalQuantité = 0;
-      //let sauvegardePanier = JSON.parse(localStorage.getItem("produit"));
-      for (let produit of sauvegardePanier){
-      totalQuantité += Number(produit.quantité);
-      }
-      const affichageQuantitéPanier = document.querySelector("#Panier");
-      affichageQuantitéPanier.textContent = `Panier (${totalQuantité})`;*/
-
     
   } else {
     alert ("Merci de saisir une couleur valide et une quantité de 1 à 100.");
