@@ -7,7 +7,12 @@ fetch("http://localhost:3000/api/products/")
   })
   .then(function(value) {
     console.log(value) ; 
-    
+    let sauvegardePanier = JSON.parse(localStorage.getItem("produit"));
+
+    if(sauvegardePanier == null){
+      alert("Votre panier est vide .Veuillez saisir un article.")
+
+    }else{
     // recupération description produit de l'API
       var totalQuantité = 0 ;
       var totalPrix = 0 ;
@@ -22,9 +27,8 @@ fetch("http://localhost:3000/api/products/")
       var PrixProduit = value[NumProduit].price;
     
     // récupération du panier dans le localstorage
-
-      let sauvegardePanier = JSON.parse(localStorage.getItem("produit"));
       console.log(sauvegardePanier);
+
        for (var i =0 ; i < sauvegardePanier.length;i++){
        var IdProduitPanier = sauvegardePanier[i].id;
      
@@ -63,13 +67,13 @@ fetch("http://localhost:3000/api/products/")
       boutonSupprimer.addEventListener("click",( ) =>{
         console.log(boutonSupprimer);
         console.log(sauvegardePanier.length);
+         
 
-        if (sauvegardePanier.length == 1) {
-          return(
-            localStorage.removeItem("produit"),
-           alert("Votre panier est vide."),
-           document.location = "../html/cart.html "
-            );
+        if (sauvegardePanier.length == 1 ){
+           localStorage.removeItem("produit");
+           document.location = "../html/cart.html "; 
+           alert(`L'article est supprimé!!`);
+           
 
           } else {
             restantApresSuppProduit = sauvegardePanier.filter((el)=>{
@@ -80,11 +84,12 @@ fetch("http://localhost:3000/api/products/")
             });
             console.log(restantApresSuppProduit);
             localStorage.setItem("produit", JSON.stringify(restantApresSuppProduit));
-            alert(`L'article ${NomProduit} couleur ${CouleurProduit} est supprimé!!`);
+            alert(`L'article est supprimé!!`);
             document.location = "../html/cart.html "; 
           }
 
              console.log( AffichageProduitsPanier);
+             
        
       });
      });
@@ -93,35 +98,40 @@ fetch("http://localhost:3000/api/products/")
       const inputQuantité = document.querySelectorAll(".itemQuantity");
       console.log(inputQuantité);
       
-      inputQuantité.forEach((champsQuantité)=> {
-        champsQuantité.addEventListener("input",() =>{
+      inputQuantité.forEach((champQuantité)=> {
 
-          console.log(champsQuantité);
+          champQuantité.addEventListener("change",() =>{
+          console.log(champQuantité);
 
           for (q = 0;q < sauvegardePanier.length ; q++) {
            
-            if( sauvegardePanier[q].id == champsQuantité.dataset.id && sauvegardePanier[q].couleur == champsQuantité.dataset.color ) {
-              sauvegardePanier[q].quantité = champsQuantité.value;
-
+            if( sauvegardePanier[q].id == champQuantité.dataset.id && sauvegardePanier[q].couleur == champQuantité.dataset.color ) {
+              sauvegardePanier[q].quantité = champQuantité.value;
               console.log(sauvegardePanier[q].quantité);
               console.log(sauvegardePanier);
-              if(champsQuantité.value )
+
+              if(champQuantité.value )
               localStorage.setItem("produit",JSON.stringify(sauvegardePanier));
+              document.location = "../html/cart.html ";
+              alert("Votre panier a été modifié!")
 
             }}})
              })
       }}
-     
       console.log(totalPrix);
-      console.log(totalQuantité);
+      console.log(totalQuantité);  
       
-  }})
+  }}})
   
     .catch(function(err) {
         console.log(err);
-        //alert(err);
-      }
-      );
-     
+        alert(err);
+      });
+
+// vérification du formulaire ================================================================================
+   
+   
+
+
 
      

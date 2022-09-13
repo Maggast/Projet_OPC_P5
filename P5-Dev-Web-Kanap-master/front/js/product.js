@@ -81,6 +81,7 @@ quantité :`${quantité.value}`,
 
       if(lecturePanier.id == detailProduit.id && lecturePanier.couleur == detailProduit.couleur){
         let NouvelleQtitéProduit = Number(detailProduit.quantité) + Number(lecturePanier.quantité);
+       
         if(NouvelleQtitéProduit < 100){
           sauvegardePanier[i].quantité = Number(detailProduit.quantité) + Number(lecturePanier.quantité);
           alert (`L'article ${nom} a été ajouté au panier.`);
@@ -92,18 +93,20 @@ quantité :`${quantité.value}`,
     }
     if (trouveProduit==0){
       sauvegardePanier.push(detailProduit);
+     
     }
     localStorage.setItem("produit",JSON.stringify(sauvegardePanier));
-
+   
     }else{
       sauvegardePanier=[];
       sauvegardePanier.push(detailProduit);
       localStorage.setItem("produit",JSON.stringify(sauvegardePanier));
+      alert (`L'article ${nom} a été ajouté au panier.`);
       console.log(sauvegardePanier);
       
    
     }  
-  
+    
     
     
   } else {
