@@ -106,6 +106,7 @@ fetch("http://localhost:3000/api/products/")
           for (q = 0;q < sauvegardePanier.length ; q++) {
            
             if( sauvegardePanier[q].id == champQuantité.dataset.id && sauvegardePanier[q].couleur == champQuantité.dataset.color ) {
+              if(champQuantité.value < 101 && champQuantité.value > 0){
               sauvegardePanier[q].quantité = champQuantité.value;
               console.log(sauvegardePanier[q].quantité);
               console.log(sauvegardePanier);
@@ -114,22 +115,118 @@ fetch("http://localhost:3000/api/products/")
               localStorage.setItem("produit",JSON.stringify(sauvegardePanier));
               document.location = "../html/cart.html ";
               alert("Votre panier a été modifié!")
-
+              }else{
+                alert("La quantité doit être comprise entre 1 et 100.");
+              }
             }}})
              })
       }}
       console.log(totalPrix);
       console.log(totalQuantité);  
       
-  }}})
+  }}
+ // vérification du formulaire ================================================================================
+
+ let formulaire = document.querySelector('.cart__order__form');
+
+ // définition des expressions régulières
+ let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$','g');
+ let nomRegExp = new RegExp('^(([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11})|([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}-{1,2}[A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}))$');
+ let villeRegExp = new RegExp('^([a-zA-Z,\.\'\-àâäéèêëïîôöùûüÿa ]*)$');
+ let adresseRegExp = new RegExp('^([0-9a-zA-Z,\.\'\-àâäéèêëïîôöùûüÿa ]*)$');
+
+ //validation email
+ formulaire.email.addEventListener('change', function() {
+  validEmail(this);
+ });
+ const validEmail = function(saisieEmail){
+ let messageEMail = saisieEmail.nextElementSibling;
+
+  if(emailRegExp.test(saisieEmail.value)) {
+    messageEMail.innerHTML = 'Adresse email Valide';
+    messageEMail.classList.remove('text-incorrect');
+    messageEMail.classList.add('text-valide');
+  }else{
+    messageEMail.innerHTML = 'Adresse email Incorrecte';
+    messageEMail.classList.remove('text-valide');
+    messageEMail.classList.add('text-incorrect');
+  }};
+
+//validation prénom 
+formulaire.firstName.addEventListener('change', function() {
+  validPrenom(this);
+ });
+ const validPrenom = function(saisiePrenom){
+ let messagePrenom = saisiePrenom.nextElementSibling;
+
+  if(nomRegExp.test(saisiePrenom.value)) {
+    messagePrenom.innerHTML = 'Prénom Valide';
+    messagePrenom.classList.remove('text-incorrect');
+    messagePrenom.classList.add('text-valide');
+  }else{
+    messagePrenom.innerHTML = 'Prénom Incorrect';
+    messagePrenom.classList.remove('text-valide');
+    messagePrenom.classList.add('text-incorrect');
+  }};
+
+  //validation nom
+formulaire.lastName.addEventListener('change', function() {
+  validNom(this);
+ });
+ const validNom = function(saisieNom){
+ let messageNom = saisieNom.nextElementSibling;
+
+  if(nomRegExp.test(saisieNom.value)) {
+    messageNom.innerHTML = 'Nom Valide';
+    messageNom.classList.remove('text-incorrect');
+    messageNom.classList.add('text-valide');
+  }else{
+    messageNom.innerHTML = 'Nom Incorrect';
+    messageNom.classList.remove('text-valide');
+    messageNom.classList.add('text-incorrect');
+  }};
+
+  //validation ville
+formulaire.city.addEventListener('change', function() {
+  validVille(this);
+ });
+ const validVille = function(saisieVille){
+ let messageVille = saisieVille.nextElementSibling;
+
+  if(villeRegExp.test(saisieVille.value)) {
+    messageVille.innerHTML = 'Ville Valide';
+    messageVille.classList.remove('text-incorrect');
+    messageVille.classList.add('text-valide');
+  }else{
+    messageVille.innerHTML = 'Ville Incorrecte';
+    messageVille.classList.remove('text-valide');
+    messageVille.classList.add('text-incorrect');
+  }};
+
+  // validation adresse postale
+formulaire.address.addEventListener('change', function() {
+  validAdresse(this);
+ });
+ const validAdresse = function(saisieAdresse){
+ let messageAdresse = saisieAdresse.nextElementSibling;
+
+  if(adresseRegExp.test(saisieAdresse.value)) {
+    messageAdresse.innerHTML = 'Adresse Valide';
+    messageAdresse.classList.remove('text-incorrect');
+    messageAdresse.classList.add('text-valide');
+  }else{
+    messageAdresse.innerHTML = 'Adresse Incorrecte';
+    messageAdresse.classList.remove('text-valide');
+    messageAdresse.classList.add('text-incorrect');
+  }};
+
+})
   
     .catch(function(err) {
         console.log(err);
         alert(err);
       });
 
-// vérification du formulaire ================================================================================
-   
    
 
 

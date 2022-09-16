@@ -64,7 +64,7 @@ quantité :`${quantité.value}`,
 };
  
 //condition selection couleur et quantité
- if ((quantité.value > 0 )&&(couleurProduit.value != "")){
+ if ((quantité.value > 0 )&&(couleurProduit.value != "")&&(quantité.value < 101)){
     let sauvegardePanier = JSON.parse(localStorage.getItem("produit"));
     console.log(sauvegardePanier);
     
@@ -82,7 +82,7 @@ quantité :`${quantité.value}`,
       if(lecturePanier.id == detailProduit.id && lecturePanier.couleur == detailProduit.couleur){
         let NouvelleQtitéProduit = Number(detailProduit.quantité) + Number(lecturePanier.quantité);
        
-        if(NouvelleQtitéProduit < 100){
+        if(NouvelleQtitéProduit < 100 ){
           sauvegardePanier[i].quantité = Number(detailProduit.quantité) + Number(lecturePanier.quantité);
           alert (`L'article ${nom} a été ajouté au panier.`);
         }else{
@@ -93,7 +93,7 @@ quantité :`${quantité.value}`,
     }
     if (trouveProduit==0){
       sauvegardePanier.push(detailProduit);
-     
+      alert (`L'article ${nom} a été ajouté au panier.`);
     }
     localStorage.setItem("produit",JSON.stringify(sauvegardePanier));
    
