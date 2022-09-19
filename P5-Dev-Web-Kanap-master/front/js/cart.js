@@ -125,35 +125,41 @@ fetch("http://localhost:3000/api/products/")
       console.log(totalQuantité);  
       
   }}
+})
+  
+.catch(function(err) {
+    console.log(err);
+    alert(err);
+  });
  // vérification du formulaire ================================================================================
 
  let formulaire = document.querySelector('.cart__order__form');
 
  // définition des expressions régulières
- let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$','g');
- let nomRegExp = new RegExp('^(([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11})|([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}-{1,2}[A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}))$');
- let villeRegExp = new RegExp('^([a-zA-Z,\.\'\-àâäéèêëïîôöùûüÿa ]*)$');
- let adresseRegExp = new RegExp('^([0-9a-zA-Z,\.\'\-àâäéèêëïîôöùûüÿa ]*)$');
+ const emailRegExp = new RegExp('^[a-z0-9\.]+@[a-z]+\.[a-z]{2,3}$');
+ const nomRegExp = new RegExp('^(([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11})|([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}-{1,2}[A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}))$');
+ const villeRegExp = new RegExp('^[a-zA-Z \-\/]+$');
+ const adresseRegExp = new RegExp('^[a-zA-Z0-9 \-\/\']+$');
 
  //validation email
- formulaire.email.addEventListener('change', function() {
+ formulaire.email.addEventListener('input', function() {
   validEmail(this);
  });
  const validEmail = function(saisieEmail){
  let messageEMail = saisieEmail.nextElementSibling;
-
+ 
   if(emailRegExp.test(saisieEmail.value)) {
     messageEMail.innerHTML = 'Adresse email Valide';
     messageEMail.classList.remove('text-incorrect');
     messageEMail.classList.add('text-valide');
   }else{
-    messageEMail.innerHTML = 'Adresse email Incorrecte';
+    messageEMail.innerHTML = 'Adresse email Incorrecte!(Ex:dupond@hjk.com)';
     messageEMail.classList.remove('text-valide');
     messageEMail.classList.add('text-incorrect');
   }};
 
 //validation prénom 
-formulaire.firstName.addEventListener('change', function() {
+formulaire.firstName.addEventListener('input', function() {
   validPrenom(this);
  });
  const validPrenom = function(saisiePrenom){
@@ -164,13 +170,13 @@ formulaire.firstName.addEventListener('change', function() {
     messagePrenom.classList.remove('text-incorrect');
     messagePrenom.classList.add('text-valide');
   }else{
-    messagePrenom.innerHTML = 'Prénom Incorrect';
+    messagePrenom.innerHTML = 'Prénom Incorrect!(ex:Jean-Paul)';
     messagePrenom.classList.remove('text-valide');
     messagePrenom.classList.add('text-incorrect');
   }};
 
   //validation nom
-formulaire.lastName.addEventListener('change', function() {
+formulaire.lastName.addEventListener('input', function() {
   validNom(this);
  });
  const validNom = function(saisieNom){
@@ -181,13 +187,13 @@ formulaire.lastName.addEventListener('change', function() {
     messageNom.classList.remove('text-incorrect');
     messageNom.classList.add('text-valide');
   }else{
-    messageNom.innerHTML = 'Nom Incorrect';
+    messageNom.innerHTML = 'Nom Incorrect!(ex:Dupond)';
     messageNom.classList.remove('text-valide');
     messageNom.classList.add('text-incorrect');
   }};
 
   //validation ville
-formulaire.city.addEventListener('change', function() {
+formulaire.city.addEventListener('input', function() {
   validVille(this);
  });
  const validVille = function(saisieVille){
@@ -198,16 +204,19 @@ formulaire.city.addEventListener('change', function() {
     messageVille.classList.remove('text-incorrect');
     messageVille.classList.add('text-valide');
   }else{
-    messageVille.innerHTML = 'Ville Incorrecte';
+    messageVille.innerHTML = 'Ville Incorrecte!(ex:Marseille)';
     messageVille.classList.remove('text-valide');
     messageVille.classList.add('text-incorrect');
   }};
 
   // validation adresse postale
-formulaire.address.addEventListener('change', function() {
+
+formulaire.address.addEventListener('input', function() {
   validAdresse(this);
  });
+ 
  const validAdresse = function(saisieAdresse){
+ 
  let messageAdresse = saisieAdresse.nextElementSibling;
 
   if(adresseRegExp.test(saisieAdresse.value)) {
@@ -215,17 +224,56 @@ formulaire.address.addEventListener('change', function() {
     messageAdresse.classList.remove('text-incorrect');
     messageAdresse.classList.add('text-valide');
   }else{
-    messageAdresse.innerHTML = 'Adresse Incorrecte';
+    messageAdresse.innerHTML = 'Adresse Incorrecte!(ex:34 chemin du pont)';
     messageAdresse.classList.remove('text-valide');
     messageAdresse.classList.add('text-incorrect');
   }};
-
-})
   
-    .catch(function(err) {
-        console.log(err);
-        alert(err);
-      });
+
+// envoi formulaire et panier dans API///////////////////////////////////////////////////////////////////
+
+ // ecoute du formulaire
+formulaire.addEventListener("submit" ,(e)=> {
+  e.preventDefault();
+  console.log("pas d'envoi");
+  console.log(adresseRegExp.test(address.value));
+  console.log(villeRegExp.test(city.value));
+  console.log(nomRegExp.test(lastName.value));
+  console.log(nomRegExp.test(firstName.value));
+  console.log(emailRegExp.test(email.value));
+
+ 
+  if(adresseRegExp.test(address.value) && villeRegExp.test(city.value) && nomRegExp.test(lastName.value) && nomRegExp.test(firstName.value) && emailRegExp.test(email.value)){
+   console.log("envoi ok")
+    const recapCommande = JSON.parse(localStorage.getItem("produit"));
+    let recapProduitId = [];
+    console.log(recapCommande);
+    console.log(recapProduitId);
+
+// récupération des données pour l'API
+
+    recapCommande.forEach((commande) =>{
+      recapProduitId.push(commande.id);
+    });
+   
+    console.log(recapProduitId);
+    const infoCommande ={
+    contact: {
+      firstName : firstName.value,
+      lastName : lastName.value,
+      address : address.value,
+      city : city.value,
+      email : email.value
+       },
+       products : recapProduitId
+      };
+console.log(infoCommande);
+
+}else{
+  alert("Merci de remplir le formulaire correctement.")
+}});
+
+
 
    
 
