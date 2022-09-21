@@ -232,7 +232,8 @@ formulaire.address.addEventListener('input', function() {
 
 // envoi formulaire et panier dans API///////////////////////////////////////////////////////////////////
 
- // ecoute du formulaire
+
+ // écoute du formulaire
 formulaire.addEventListener("submit" ,(e)=> {
   e.preventDefault();
   console.log("pas d'envoi");
@@ -269,8 +270,46 @@ formulaire.addEventListener("submit" ,(e)=> {
       };
 console.log(infoCommande);
 
+//envoi des données à l'API par fetch post
+
+fetch("http://localhost:3000/api/products/order",{
+method: "POST",
+headers :{"Content-Type":"application/json"},
+body : JSON.stringify(infoCommande), })
+
+//  recupération reponse server
+.then((res)=> res.json())
+.then((promise) =>{
+  const retourServeur = promise;
+  console.log(retourServeur);
+
+  // stockage des infos contact orderId et prix total  dans le localstorage
+  let validationCommande = JSON.parse(localStorage.getItem("commande"));
+  console.log(validationCommande);
+
+const commande ={
+ //contact : retourServeur.contact,
+ order : retourServeur.orderId ,
+// total :document.getElementById("totalPrice").textContent 
+};
+ if ( validationCommande == null){
+  validationCommande =[];
+  validationCommande.push(commande);
+  localStorage.setItem("commande",JSON.stringify(validationCommande));
+
+  //
+ }else{
+  validationCommande.push(commande);
+  localStorage.setItem("commande",JSON.stringify(validationCommande));
+ }
+ //supression du panier après validation commande
+
+ localStorage.removeItem("produit");
+ document.location = "../html/confirmation.html ";
+
+});
 }else{
-  alert("Merci de remplir le formulaire correctement.")
+  alert("Merci de compléter correctement le formulaire.")
 }});
 
 
