@@ -69,7 +69,7 @@ quantité :`${quantité.value}`,
     console.log(sauvegardePanier);
     
 
-//condition sauvegarde nouveau produit sans écrasement du précedent
+//condition sauvegarde nouveau produit sans écrasement du précedent----------------------------------------
     if(sauvegardePanier){
           
 //condition cumul quantité si id+couleur produit identiques
