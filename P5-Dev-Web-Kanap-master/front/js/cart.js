@@ -138,7 +138,7 @@ fetch("http://localhost:3000/api/products/")
  // définition des expressions régulières
  const emailRegExp = new RegExp('^[a-z0-9\.]+@[a-z]+\.[a-z]{2,3}$');
  const nomRegExp = new RegExp('^(([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11})|([A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}-{1,2}[A-Za-z]{1}[àâäéèêëïîôöùûüÿa-z]{2,11}))$');
- const villeRegExp = new RegExp('^[a-zA-Z ]{2,30}$');
+ const villeRegExp = new RegExp('^[a-zA-Z -]{2,30}$');
  const adresseRegExp = new RegExp('^[a-zA-Z0-9 ]{5,50}$');
 
  //validation email
